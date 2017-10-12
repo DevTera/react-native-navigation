@@ -28,7 +28,7 @@ class Navigator {
     }
 
     push(params = {}) {
-        if (this.duplicated({method: 'push', passProps: params.passProps, screen: params.screen})) {
+        if (this.duplicated()) {
             return;
         }
         return NavigationSpecific.push(this, params);
@@ -47,6 +47,9 @@ class Navigator {
     }
 
     showModal(params = {}) {
+        if (this.duplicated()) {
+            return;
+        }
         return Navigation.showModal(params);
     }
 
@@ -155,7 +158,7 @@ class Navigator {
         }
     }
 
-    duplicated(params) {
+    duplicated() {
     var duplicated = Date.now() - this._lastAction.timestamp < 1000;
     this._lastAction = {timestamp: Date.now()};
     return duplicated;
